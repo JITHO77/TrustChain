@@ -17,12 +17,16 @@ class Main extends Component{
          return(
              <div>
              <Header />
-             <Home quote = {this.props.quotes} />
+             <Switch>      
+             <Route path="/home" component = {()=><Home quote={this.props.quotes}/>}/>
+             <Redirect to="/home" />
+             </Switch>
              <Footer />
              </div>
+             
               
          );
      }
 }
 
-export default  connect(mapStateToProps) (Main);
+export default withRouter( connect(mapStateToProps)(Main)) ;
