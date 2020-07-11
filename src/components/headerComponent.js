@@ -31,9 +31,9 @@ class Header extends Component{
     }
     render(){
         return(
-                    <div>
+                    
                     <Navbar dark expand="md">
-                   
+                         <div class="container">
                         <NavbarBrand href="/"><h2>Trust Chain</h2></NavbarBrand>
                             <NavbarToggler onClick={this.toggleNav} />
                             <Collapse isOpen={this.state.isOpen} navbar>
@@ -60,9 +60,9 @@ class Header extends Component{
                                 </NavItem>
                             </Nav>  
                             </Collapse>  
-                           
+                            </div>
                     </Navbar>
-                    </div>
+                   
                
         );
     }
