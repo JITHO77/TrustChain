@@ -33,7 +33,7 @@ class Header extends Component{
         return(
                     
                     <Navbar dark expand="md">
-                         <div class="container">
+                         <div className="container">
                         <NavbarBrand href="/"><h2>Trust Chain</h2></NavbarBrand>
                             <NavbarToggler onClick={this.toggleNav} />
                             <Collapse isOpen={this.state.isOpen} navbar>
