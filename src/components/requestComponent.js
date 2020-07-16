@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import Personaldetails from './personalDetailsComponent';
 import Hospitaldetails from './hospitalDetailsComponent';
+import Bankdetails from './bankDetailComponent';
 import {useSelector, useDispatch} from 'react-redux';
 
 
@@ -54,6 +55,9 @@ function Request(){
       }
       else if(status === 25){
         return(<Hospitaldetails />)
+      }
+      else if(status === 50){
+        return(<Bankdetails />)
       }
       
     }
