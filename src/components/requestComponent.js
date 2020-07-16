@@ -6,6 +6,7 @@ import Slider from '@material-ui/core/Slider';
 import Personaldetails from './personalDetailsComponent';
 import Hospitaldetails from './hospitalDetailsComponent';
 import Bankdetails from './bankDetailComponent';
+import MyRequest from './myRequest';
 import {useSelector, useDispatch} from 'react-redux';
 
 
@@ -54,10 +55,13 @@ function Request(){
         return(<Personaldetails />);
       }
       else if(status === 25){
-        return(<Hospitaldetails />)
+        return(<Hospitaldetails />);
       }
       else if(status === 50){
-        return(<Bankdetails />)
+        return(<Bankdetails />);
+      }
+      else if(status === 75){
+        return(<MyRequest />);
       }
       
     }
