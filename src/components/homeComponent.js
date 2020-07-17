@@ -12,7 +12,7 @@ class Home extends Component{
             <div class="container"> 
                 <div class="row">
                 <div className="col-12 col-md mt-1 ">
-                       <img src={this.props.quote.image1} class="img-fluid" ></img>
+                       <img src={this.props.images.image1} class="img-fluid" ></img>
         
                     </div>
                     <div className="col-12 col-md mt-5 ">
@@ -34,7 +34,7 @@ class Home extends Component{
                 </div>
 
                 <div className="col-12 col-md mt-1 ">
-                       <img src={this.props.quote.image2} class="img-fluid" ></img>
+                       <img src={this.props.images.image2} class="img-fluid" ></img>
         
                     </div>
                    
