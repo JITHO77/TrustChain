@@ -28,26 +28,25 @@ const useStyles = makeStyles((theme) => ({
       },
     {
       value: 25,
-      label: 'Personal',
+      label: 'Personal Details',
     },
     {
       value: 50,
-      label: 'Hospital',
+      label: 'Hospital Details',
     },
     {
       value: 75,
-      label: 'Bank',
+      label: 'Bank Details',
     },
     {
       value: 100,
-      label: 'Request',
+      label: 'Request Details',
     },
   ];
  
-  
 
-function Request(){
-    //const classes = useStyles();
+function MedicalRequest(){
+    const classes = useStyles();
     const status = useSelector(state => state.status.status);
     console.log('status',status);
     const Render =() =>{
@@ -67,9 +66,25 @@ function Request(){
     }
     
     return(
+      <div>
+      
+      <div className={classes.root, "container mt-5"}>
+      <Typography id="discrete-slider-always" gutterBottom>
+       Completed
+      </Typography>
+      <Slider
+        defaultValue={0}
+        value={status}
+        aria-labelledby="discrete-slider-always"
+        step={5}
+        marks={marks}
+        valueLabelDisplay="on"
+      />
+    </div>
         <Render />
+    </div>
     );
  
 }
 
-export default Request;
+export default MedicalRequest;

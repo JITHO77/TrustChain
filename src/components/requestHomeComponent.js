@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 
-import {Card, CardImg, CardText, CardBody, CardLink, CardTitle, CardSubtitle, Button, Col} from 'reactstrap';
-
+import {Card, CardImg, CardText, CardBody, CardLink, CardTitle, CardSubtitle, Col} from 'reactstrap';
+import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom';
 class RequestHome extends Component{
     constructor(props){
         super(props);
@@ -25,7 +26,7 @@ class RequestHome extends Component{
                         <CardBody>
                             <CardText>Click Below To Make Request!</CardText>
                             
-                                    <Button type="button" color="primary">Make Request</Button>
+                                    <Button component={Link} to="/requestMedical" color="primary" >Make Request</Button>
                                 
                         </CardBody>
                         </Card>

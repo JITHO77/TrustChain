@@ -17,3 +17,6 @@
   border-bottom: 1px ridge;
   min-height:400px;
 }
+.error{
+  color: red;
+}
