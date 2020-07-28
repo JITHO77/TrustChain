@@ -43,7 +43,7 @@ class RequestHome extends Component{
                         <CardBody>
                             <CardText>Click Below To Make Request!</CardText>
                             
-                                    <Button type="button" color="primary">Make Request</Button>
+                                    <Button component={Link} to="/requestHome" color="primary">Make Request</Button>
                                 
                         </CardBody>
                         </Card>
