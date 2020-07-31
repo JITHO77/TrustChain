@@ -26,7 +26,7 @@ class DonateHome extends Component{
                         <CardBody>
                             <CardText>Click Below To Donate</CardText>
                             
-                                    <Button component={Link} to="" color="primary" >Donate</Button>
+                                    <Button component={Link} to="/viewMedicalRequest" color="primary" >Donate</Button>
                                 
                         </CardBody>
                         </Card>
