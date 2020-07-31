@@ -51,9 +51,18 @@ const useStyles = makeStyles(theme => ({
   });
 
 
-function HospitalDetails({medicalData, nextStep, prevStep, setMedicalData}){
+function HospitalDetails({medicalData, nextStep, prevStep, setMedicalData, setArrayMcert}){
     const classes = useStyles();
     const [direction, setDirection] = useState('back');
+    const convertMcert = (file) =>{     
+      console.log("Hello");
+      const reader = new window.FileReader()
+      reader.readAsArrayBuffer(file);
+      reader.onloadend = () =>{
+        setArrayMcert(Buffer(reader.result));
+
+      }
+    }
         return(
          
         <div className="mt-5 mb-5">   
@@ -66,6 +75,7 @@ function HospitalDetails({medicalData, nextStep, prevStep, setMedicalData}){
           <Formik 
           initialValues={medicalData}
           onSubmit={values => {
+            convertMcert(values.mCert);
             setMedicalData(values);
             direction === 'back' ? prevStep() : nextStep();
           }}

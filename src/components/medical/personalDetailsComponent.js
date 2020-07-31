@@ -53,27 +53,30 @@ const useStyles = makeStyles(theme => ({
     
     id: yup
       .string()
-      .required('ID is Required')
-    
-
-    
-    
+      .required('ID is Required'),
   });
 
 
-function PersonalDetails({medicalData, nextStep, setMedicalData}){
+function PersonalDetails({medicalData, nextStep, setMedicalData, setArrayImage, setArrayID}){
    const classes = useStyles();
-        const[image, setImage] = useState('');
-        const[id, setId] = useState('');
         
-        const captureFile = (event) =>{
-          event.preventDefault();
+        const convertImage = (file) =>{
+        
           console.log("Hello")
-          const file = event.target.files[0]
           const reader = new window.FileReader()
           reader.readAsArrayBuffer(file);
           reader.onloadend = () =>{
-            setImage(Buffer(reader.result));
+            setArrayImage(Buffer(reader.result));
+
+          }
+        }
+        const convertID = (file) =>{
+          
+          console.log("Hello");
+          const reader = new window.FileReader()
+          reader.readAsArrayBuffer(file);
+          reader.onloadend = () =>{
+            setArrayID(Buffer(reader.result));
 
           }
         }
@@ -87,7 +90,10 @@ function PersonalDetails({medicalData, nextStep, setMedicalData}){
                     <Formik
                     initialValues={medicalData}
                     onSubmit={values => {
-                  console.log('values', values)
+                    convertImage(values.image);
+                    convertID(values.id);
+
+                    console.log('values', values);
                     setMedicalData(values);
                     nextStep();
                     }}
@@ -163,7 +169,8 @@ function PersonalDetails({medicalData, nextStep, setMedicalData}){
                             <label for="id">Upload Your ID</label>
                             <Field component={SimpleFileUpload} 
                             InputProps={{ disableUnderline: true }}
-                            name="id" label={medicalData.id.name}
+                            name="id" 
+                            label={medicalData.id.name}
                             error={touched.id && errors.id}
                             helperText={touched.id&& errors.id} />
         

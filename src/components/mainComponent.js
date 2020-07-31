@@ -8,7 +8,7 @@ import DonateHome from './donateHomeComponent';
 import HomeRequest from './home/homeRequestComponent'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {incStatus, savePersonalDetails} from '../redux/ActionCreater';
+import {incStatus,} from '../redux/ActionCreater';
 
 
 
@@ -21,8 +21,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) =>({
     incrementStatus: (status) =>{ dispatch(incStatus(status))},
-    savePersonalDetails: (name, state, address, phno, image, id) => dispatch(savePersonalDetails(name, state, address, phno, image, id)),
-})
+    })
 
 class Main extends Component{
      render(){

@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
  function Medical() {
   
   const[step, setStep] = useState(0);
+  const[arrayImage, setArrayImage] = useState('');
+  const[arrayID, setArrayID] = useState('');
+  const[arrayMcert, setArrayMcert] = useState('');
+
 
   const[medicalData, setMedicalData] = useState({
       name: '',
@@ -74,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
       amount:'',
       request:'',
       agree:false,
+      arrayImage:'',
+      arrayID: '',
+      arrayMcert:''
 
   });
 
@@ -89,6 +96,8 @@ const useStyles = makeStyles((theme) => ({
                             nextStep={nextStep}
                             medicalData={medicalData}
                             setMedicalData={setMedicalData}
+                            setArrayImage = {setArrayImage}
+                            setArrayID = {setArrayID}
                             />
                             </div>
                       
@@ -101,6 +110,7 @@ const useStyles = makeStyles((theme) => ({
                             prevStep={prevStep}
                             medicalData={medicalData}
                             setMedicalData={setMedicalData}
+                            setArrayMcert={setArrayMcert}
                             />
                             </div>)
                 case 2:
@@ -130,11 +140,25 @@ const useStyles = makeStyles((theme) => ({
                             nextStep={nextStep}
                             prevStep={prevStep}
                             medicalData={medicalData}
+                            arrayImage={arrayImage}
+                            arrayID={arrayID}
+                            arrayMcert={arrayMcert}
                             />   
                             </div>)
                             
                 default: 
-                    return <Success />
+                    return (<div className="container">
+                    <StepperComponent step={step}/>
+                    <PersonalDetails
+                    nextStep={nextStep}
+                    medicalData={medicalData}
+                    setMedicalData={setMedicalData}
+                    setArrayImage = {setArrayImage}
+                    setArrayID = {setArrayID}
+                    />
+                    </div>
+              
+                  )
                 }
         };
        

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import { List, ListItem, ListItemText } from '@material-ui/core/';
-
+import { useDispatch } from "react-redux";
+import {medicalDetails} from '../../redux/ActionCreater';
+const ipfsClient = require('ipfs-http-client');
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 const useStyles = makeStyles(theme => ({
   textCenter: {
     textAlign: 'center',
@@ -16,10 +19,42 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Confirmation ({ medicalData, prevStep, nextStep }){
+export default function Confirmation ({ medicalData, prevStep, nextStep , arrayImage, arrayMcert, arrayID}){
   const classes = useStyles();
   const { name, state, address, phno, image, id, hName, hAddress, hPhno,doctor,  mCert, accountHolder, accountNumber
   , IFSC, amount, request} = medicalData;
+  const dispatch = useDispatch();
+ 
+  const addMedical = async() =>{
+  const requestData = JSON.stringify({category: 'medical',
+  name: name,
+  state: state,
+  address: address,
+  phno: phno,
+  image: arrayImage,
+  id: arrayID,
+  hName: hName,
+  hAddress:hAddress,
+  hPhno: hPhno,
+  doctor:doctor,
+  mCert: arrayMcert,
+  accountHolder: accountHolder,
+  accountNumber: accountNumber,
+  IFSC: IFSC,
+  amount: amount,
+  request: request,
+  comments:{
+
+  }});
+   const result = await ipfs.add(requestData);
+  console.log('result ', result);
+  dispatch(medicalDetails(result.cid, amount));
+  nextStep();
+      
+
+}
+
+ 
   return (
     <>
 
@@ -142,7 +177,7 @@ export default function Confirmation ({ medicalData, prevStep, nextStep }){
             color='primary'
             variant='contained'
             className={classes.button}
-            onClick={() => nextStep()}
+            onClick={() => addMedical()}
           >
             Confirm & Continue
           </Button>
@@ -153,7 +188,11 @@ export default function Confirmation ({ medicalData, prevStep, nextStep }){
 };
 
 Confirmation.propTypes = {
-  formData: PropTypes.object.isRequired,
+  medicalData: PropTypes.object.isRequired,
   prevStep: PropTypes.func.isRequired,
-  nextStep: PropTypes.func.isRequired
+  nextStep: PropTypes.func.isRequired,
+  arrayImage: PropTypes.object.isRequired,
+  arrayID: PropTypes.object.isRequired,
+  arrayMcert: PropTypes.object.isRequired,
+
 };
