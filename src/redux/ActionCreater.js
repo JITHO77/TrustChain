@@ -1,14 +1,15 @@
 import * as ActionTypes from './ActionTypes';
 const Web3 = require('web3');
-const ipfsClient = require('ipfs-http-client');
 
 
 //const Gsn = require("@opengsn/gsn/dist/src/relayclient/")
 //const RelayProvider = Gsn.RelayProvider;
 //const configureGSN = require('@opengsn/gsn/dist/src/relayclient/GSNConfigurator').configureGSN;
-const ethers = require("ethers");
+const ipfsClient = require('ipfs-http-client');
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
+const TrustChainAddress = '0x4D8BBf5A16Fdc02340a34132E62391Ee782B79a1';
 const web3 = new Web3( new Web3.providers.HttpProvider('https://ropsten.infura.io/v3/c1633c281b39417eb2d061c5479a68f7'));
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https ' });
+
 /*
 const conf = {
 	ourContract: '0x19870E0837496886Dc9FB56d956399DD7d052754',
@@ -204,8 +205,8 @@ const abi= [
 		"type": "function"
 	}
 ]
-const TrustChainAddress = '0x4D8BBf5A16Fdc02340a34132E62391Ee782B79a1';
 
+/*
 const blockChain = async()=>{
     let contract = await new ethers.Contract( TrustChainAddress, abi,  provider.getSigner(acct.address, acct.privateKey));
     const transaction = await contract.makeRequest('abcd', 1000);
@@ -214,7 +215,7 @@ const blockChain = async()=>{
     let count = await contract.requestCount.call();
     console.log('count', count.toNumber());
 }
-
+*/
 export const incStatus = (status) =>(dispatch) =>{
     dispatch(addStatus(status));
     console.log('st', status)
@@ -225,6 +226,7 @@ export const addStatus = (status) =>({
     payload: status
 });
 
+
 export const medicalDetails = (rHash, amount) => async(dispatch) => {
 
 
@@ -233,19 +235,21 @@ export const medicalDetails = (rHash, amount) => async(dispatch) => {
    
 };
 
+
 export const addMedicalDetails = (person) => ({
     type: ActionTypes.SAVE_PERSONAL_DETAILS,
     payload: person
 });
 
-export const loadTrustChainData = async(dispatch) => {
+export const loadTrustChainData = () => async(dispatch) => {
+	console.log("hello")
 	dispatch(trustChainDataLoading());
 	const dataArray = []
+	
 	const contract = new web3.eth.Contract(abi, TrustChainAddress);
 	let requestCount;
-	contract.methods.requestCount().call().then((rc)=>{
-		requestCount = rc;
-		this.setState({requestCount});
+	contract.methods.requestCount().call().then((requestCount)=>{
+		
 		for(let i =1; i<=requestCount; i++){
 			contract.methods.request(i).call().then(async(request)=>{
 				console.log('request', request)
@@ -253,7 +257,7 @@ export const loadTrustChainData = async(dispatch) => {
 				  const concat = require('it-concat')
 				  const  Data =  await concat(ipfs.cat('QmbQ3PTMdbQ3kdVVff7BLTmyTgg5Sf8UTAMS3k954GUvBh'));
 				   const trustChainData  = JSON.parse(Data.toString());
-				   dataArray.push(trustChainData)
+				   dataArray.push(trustChainData);
 				}
 				else{
 					console.log(i);
@@ -261,10 +265,13 @@ export const loadTrustChainData = async(dispatch) => {
 			})
 		}
 	}, error =>{ var errmess = new Error(error.message);
+		console.log('error', errmess);
 		throw errmess;
 	})
 
-   .then(dispatch(addTrustChainData(dataArray)))
+   .then(() => {dispatch(addTrustChainData(dataArray))
+				console.log('data', dataArray);		
+   })
    .catch(error => dispatch(trustChainDataFailed(error.message)));
 	
 };
