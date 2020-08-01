@@ -264,7 +264,7 @@ export const loadTrustChainData = async(dispatch) => {
 		throw errmess;
 	})
 
-	.then(dispatch(addTrustChainData(dataArray)))
+   .then(dispatch(addTrustChainData(dataArray)))
    .catch(error => dispatch(trustChainDataFailed(error.message)));
 	
 };
@@ -278,8 +278,7 @@ export const  trustChainDataFailed = (msg) =>({
 	payload: msg
 });
 
-
 export const addTrustChainData = (dataArray) => ({
-	type: ActionTypes.MEDICAL_LOADING,
+	type: ActionTypes.ADD_TRUSTCHAIN_DATA,
 	payload: dataArray
 });
