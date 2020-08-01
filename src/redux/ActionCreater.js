@@ -205,16 +205,16 @@ const abi= [
 	}
 ]
 const TrustChainAddress = '0x4D8BBf5A16Fdc02340a34132E62391Ee782B79a1';
- /*
+
 const blockChain = async()=>{
-    let contract = await new ethers.Contract( conf.ourContract, abi,  provider.getSigner(acct.address, acct.privateKey));
+    let contract = await new ethers.Contract( TrustChainAddress, abi,  provider.getSigner(acct.address, acct.privateKey));
     const transaction = await contract.makeRequest('abcd', 1000);
     const receipt = await provider.waitForTransaction(transaction.hash);
     console.log(`Mined in block: ${receipt}`);
     let count = await contract.requestCount.call();
     console.log('count', count.toNumber());
 }
-*/
+
 export const incStatus = (status) =>(dispatch) =>{
     dispatch(addStatus(status));
     console.log('st', status)
@@ -226,8 +226,8 @@ export const addStatus = (status) =>({
 });
 
 export const medicalDetails = (rHash, amount) => async(dispatch) => {
-  
-  
+
+
       dispatch(addMedicalDetails("hello"));
   
    
@@ -236,4 +236,50 @@ export const medicalDetails = (rHash, amount) => async(dispatch) => {
 export const addMedicalDetails = (person) => ({
     type: ActionTypes.SAVE_PERSONAL_DETAILS,
     payload: person
+});
+
+export const loadTrustChainData = async(dispatch) => {
+	dispatch(trustChainDataLoading());
+	const dataArray = []
+	const contract = new web3.eth.Contract(abi, TrustChainAddress);
+	let requestCount;
+	contract.methods.requestCount().call().then((rc)=>{
+		requestCount = rc;
+		this.setState({requestCount});
+		for(let i =1; i<=requestCount; i++){
+			contract.methods.request(i).call().then(async(request)=>{
+				console.log('request', request)
+				if(!request.fulfilled){
+				  const concat = require('it-concat')
+				  const  Data =  await concat(ipfs.cat('QmbQ3PTMdbQ3kdVVff7BLTmyTgg5Sf8UTAMS3k954GUvBh'));
+				   const trustChainData  = JSON.parse(Data.toString());
+				   dataArray.push(trustChainData)
+				}
+				else{
+					console.log(i);
+				}
+			})
+		}
+	}, error =>{ var errmess = new Error(error.message);
+		throw errmess;
+	})
+
+	.then(dispatch(addTrustChainData(dataArray)))
+   .catch(error => dispatch(trustChainDataFailed(error.message)));
+	
+};
+
+export const trustChainDataLoading = () => ({
+		type: ActionTypes.TRUSTCHAIN_DATA_LOADING
+})
+
+export const  trustChainDataFailed = (msg) =>({
+	type: ActionTypes.TRUSTCHAIN_DATA_FAILED,
+	payload: msg
+});
+
+
+export const addTrustChainData = (dataArray) => ({
+	type: ActionTypes.MEDICAL_LOADING,
+	payload: dataArray
 });
