@@ -9,8 +9,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { MDBCol, MDBFormInline, MDBBtn } from "mdbreact";
-import {Input, Media, Button } from 'reactstrap';
+import {Input, Media} from 'reactstrap';
 import {Link} from 'react-router-dom';
+import Button from '@material-ui/core/Button'
 const useStyles = makeStyles((theme) => ({
 	root: {
 	  width: '100%',
@@ -263,8 +264,6 @@ export default class Request extends Component{
         super(props);
         this.state={
             requestCount:0,
-			requests:[],
-			data:[],
 			index:[],
 			State:''
 			
@@ -273,8 +272,9 @@ export default class Request extends Component{
     }
 
     async componentDidMount(){
-        await this.loadEthereumData();
-    }
+        //await this.loadEthereumData();
+	}
+	/*
     async loadEthereumData(){
         const contract = new web3.eth.Contract(abi, TrustChainAddress);
         let requestCount;
@@ -305,7 +305,7 @@ export default class Request extends Component{
             }
         })
     }
-
+*/
     render(){
         return(
             <div className="container mt-5">
@@ -325,7 +325,7 @@ export default class Request extends Component{
                   </MDBCol>
                 
 				</div>
-				<RenderRequest Data = {this.state.data}/>
+				<RenderRequest Data = {this.props.Data}/>
             
             </div>
         );

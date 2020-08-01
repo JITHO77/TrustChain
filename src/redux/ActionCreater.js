@@ -245,6 +245,7 @@ export const loadTrustChainData = () => async(dispatch) => {
 	console.log("hello")
 	dispatch(trustChainDataLoading());
 	const dataArray = []
+	const requestArray = []
 	
 	const contract = new web3.eth.Contract(abi, TrustChainAddress);
 	let requestCount;
@@ -252,12 +253,12 @@ export const loadTrustChainData = () => async(dispatch) => {
 		
 		for(let i =1; i<=requestCount; i++){
 			contract.methods.request(i).call().then(async(request)=>{
-				console.log('request', request)
 				if(!request.fulfilled){
 				  const concat = require('it-concat')
 				  const  Data =  await concat(ipfs.cat('QmbQ3PTMdbQ3kdVVff7BLTmyTgg5Sf8UTAMS3k954GUvBh'));
 				   const trustChainData  = JSON.parse(Data.toString());
 				   dataArray.push(trustChainData);
+				   requestArray.push(request);
 				}
 				else{
 					console.log(i);
@@ -269,6 +270,10 @@ export const loadTrustChainData = () => async(dispatch) => {
 		throw errmess;
 	})
 
+	.then(()=>{
+		dispatch(addTrustChainRequest(requestArray))
+		console.log('request', requestArray);	
+	})
    .then(() => {dispatch(addTrustChainData(dataArray))
 				console.log('data', dataArray);		
    })
@@ -283,6 +288,11 @@ export const trustChainDataLoading = () => ({
 export const  trustChainDataFailed = (msg) =>({
 	type: ActionTypes.TRUSTCHAIN_DATA_FAILED,
 	payload: msg
+});
+
+export const addTrustChainRequest = (requestArray) => ({
+	type: ActionTypes.ADD_TRUSTCHAIN_REQUEST,
+	payload: requestArray
 });
 
 export const addTrustChainData = (dataArray) => ({

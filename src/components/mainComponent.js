@@ -18,7 +18,7 @@ const mapStateToProps = (state) => {
     return {
         images: state.images,
         person: state.Person,
-        trustChainData: state.TrustChainData
+        trustChainData: state.TrustChainData.trustChain
     }
 }
 
@@ -45,7 +45,7 @@ class Main extends Component{
                 <Route path="/donate" component = {()=><DonateHome images={this.props.images}/>}/>
                 <Route path="/requestMedical" component = {() => <Medical />} />
                 <Route path="/requestHome" component = {() => <HomeRequest />} />
-                <Route path="/viewMedicalRequest" component = {() => <Request />} />
+                <Route path="/viewMedicalRequest" component = {() => <Request Data = {this.props.trustChainData}/>} />
                 <Route path="/viewMedicalRequest/:name" component = {() => <Request />} />
 
                 <Redirect to="/home" />
