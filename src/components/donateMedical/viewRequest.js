@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 			  </Media>
 			  {`-${data.request}`}
 			  <br/>
-			  <Button  component={Link} to="/viewNeedy" color="primary" className="mt-2">View</Button>
+			  <Button component={Link} to={`/viewNeedy/:${data.name}`} color="primary" className="mt-2">View</Button>
 			</Media>
 			<br/>
 			

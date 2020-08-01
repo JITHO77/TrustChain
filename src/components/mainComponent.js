@@ -7,6 +7,7 @@ import RequestHome from './requestHomeComponent';
 import DonateHome from './donateHomeComponent';
 import HomeRequest from './home/homeRequestComponent';
 import Request from './donateMedical/viewRequest';
+import ViewNeedy from './donateMedical/viewNeedy';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {incStatus,} from '../redux/ActionCreater';
@@ -36,6 +37,7 @@ class Main extends Component{
              <Route path="/requestMedical" component = {() => <Medical />} />
              <Route path="/requestHome" component = {() => <HomeRequest />} />
              <Route path="/viewMedicalRequest" component = {() => <Request />} />
+             <Route path="/viewMedicalRequest/:name" component = {() => <Request />} />
 
              <Redirect to="/home" />
              </Switch>
