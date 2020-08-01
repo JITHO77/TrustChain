@@ -246,6 +246,7 @@ export const loadTrustChainData = () => async(dispatch) => {
 	dispatch(trustChainDataLoading());
 	const dataArray = []
 	const requestArray = []
+	const requestCount = []
 	
 	const contract = new web3.eth.Contract(abi, TrustChainAddress);
 	let requestCount;
@@ -259,6 +260,7 @@ export const loadTrustChainData = () => async(dispatch) => {
 				   const trustChainData  = JSON.parse(Data.toString());
 				   dataArray.push(trustChainData);
 				   requestArray.push(request);
+				   requestCount.push(requestCount);
 				}
 				else{
 					console.log(i);
@@ -273,6 +275,10 @@ export const loadTrustChainData = () => async(dispatch) => {
 	.then(()=>{
 		dispatch(addTrustChainRequest(requestArray))
 		console.log('request', requestArray);	
+	})
+	.then(()=>{
+		dispatch(addTrustChainRequestId(requestCount))
+		console.log('request', requestCount);	
 	})
    .then(() => {dispatch(addTrustChainData(dataArray))
 				console.log('data', dataArray);		
@@ -293,6 +299,11 @@ export const  trustChainDataFailed = (msg) =>({
 export const addTrustChainRequest = (requestArray) => ({
 	type: ActionTypes.ADD_TRUSTCHAIN_REQUEST,
 	payload: requestArray
+});
+
+export const addTrustChainRequestId = (requestCount) => ({
+	type: ActionType.ADD_TRUSTCHAIN_REQUEST_ID,
+	payload: requestCount
 });
 
 export const addTrustChainData = (dataArray) => ({
