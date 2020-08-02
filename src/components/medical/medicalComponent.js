@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   }
 
 
- function Medical() {
+ function Medical({addRequest, requestStatus}) {
   
   const[step, setStep] = useState(0);
   const[arrayImage, setArrayImage] = useState('');
@@ -143,6 +143,8 @@ const useStyles = makeStyles((theme) => ({
                             arrayImage={arrayImage}
                             arrayID={arrayID}
                             arrayMcert={arrayMcert}
+                            addRequest={addRequest}
+                            requestStatus={requestStatus}
                             />   
                             </div>)
                             
