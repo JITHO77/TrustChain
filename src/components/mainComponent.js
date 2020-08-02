@@ -8,7 +8,7 @@ import DonateHome from './donateHomeComponent';
 import HomeRequest from './home/homeRequestComponent';
 import Request from './donateMedical/viewRequest';
 import ViewNeedy from './donateMedical/viewNeedy';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {incStatus, loadTrustChainData} from '../redux/ActionCreater';
 
@@ -29,6 +29,8 @@ const mapDispatchToProps = (dispatch) =>({
     loadTrustChainData: () => {dispatch(loadTrustChainData())}
     })
 
+
+
 class Main extends Component{
     constructor(props){
         super(props);
@@ -37,7 +39,22 @@ class Main extends Component{
         console.log('hello')
         this.props.loadTrustChainData();
     }
+   
      render(){
+        const  ViewRequestId = ({match}) => {
+            console.log("hi")
+            const  {requestId} = match.params;
+            console.log('requestID', requestId)
+            console.log(this.props.trustChainData)
+            console.log(this.props.trustChainData.filter((arrData, index, arr)=> index === Number(requestId))[0])
+            return(
+                <ViewNeedy data = {this.props.trustChainData.filter((arrData, index, arr)=> index === Number(requestId))[0]}
+                       request  = {this.props.request.filter((request, index, arrr)=> index === requestId)[0]}
+                       requestCount  = {this.props.requestCount.filter((requestCount, index, arr)=> index === requestId)[0]}
+            />
+            );
+            
+        }
          return(
              <div>
              <Header />
@@ -48,7 +65,7 @@ class Main extends Component{
                 <Route path="/requestMedical" component = {() => <Medical />} />
                 <Route path="/requestHome" component = {() => <HomeRequest />} />
                 <Route path="/viewMedicalRequest" component = {() => <Request Data = {this.props.trustChainData}/>} />
-                <Route path="/viewMedicalRequest/:requestId" component = {() => <Request />} />
+                <Route path="/viewMedicallRequest/:requestId" component = {({match}) => <ViewRequestId match={match} />} />
 
                 <Redirect to="/home" />
              </Switch>

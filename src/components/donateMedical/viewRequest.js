@@ -26,10 +26,11 @@ const useStyles = makeStyles((theme) => ({
 
   function RenderRequest({Data}){
 	const classes = useStyles();
-	console.log(Data[0]);
 	
 	
-	const list = Data.map((data)=>{
+	
+	const list = Data.map((data, index)=>{
+		console.log(index);
 	const  _arrayBufferToBase64 = ( buffer ) => {
 			var binary = '';
 			var bytes = new Uint8Array( buffer );
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 			maxWidth: 128
 		  }
 		return (
-			<Media>
+			<Media key={index}>
 			<Media left href="/home">
 			  <Media object src={`data:image/jpeg;base64,${base}`} style = {imgStyle} alt="Generic placeholder image" />
 			</Media>
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 			  </Media>
 			  {`-${data.request}`}
 			  <br/>
-			  <Button component={Link} to={`/viewNeedy/:${data.name}`} color="primary" className="mt-2">View</Button>
+			  <Button component={Link} to={`/viewMedicallRequest/${index}`} color="primary" className="mt-2">View</Button>
 			</Media>
 			<br/>
 			
