@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Confirmation ({ medicalData, prevStep, nextStep , arrayImage, arrayMcert, arrayID}){
+export default function Confirmation ({ medicalData, prevStep, nextStep , arrayImage, arrayMcert, arrayID, addRequest, requestStatus}){
   const classes = useStyles();
   const { name, state, address, phno, image, id, hName, hAddress, hPhno,doctor,  mCert, accountHolder, accountNumber
   , IFSC, amount, request} = medicalData;
@@ -48,7 +48,7 @@ export default function Confirmation ({ medicalData, prevStep, nextStep , arrayI
   }});
    const result = await ipfs.add(requestData);
   console.log('result ', result);
-  dispatch(medicalDetails(result.cid, amount));
+  addRequest(result.cid, amount);
   nextStep();
       
 
@@ -194,5 +194,7 @@ Confirmation.propTypes = {
   arrayImage: PropTypes.object.isRequired,
   arrayID: PropTypes.object.isRequired,
   arrayMcert: PropTypes.object.isRequired,
+  addRequest: PropTypes.func.isRequired,
+  requestStatus: PropTypes.object.isRequired,
 
 };
