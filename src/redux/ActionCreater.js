@@ -227,19 +227,37 @@ export const addStatus = (status) =>({
 });
 
 
-export const medicalDetails = (rHash, amount) => async(dispatch) => {
+export const addRequest = (rHash, amount) => async(dispatch) => {
+		dispatch(requestLoading());
+		let wallet = new ethers.wallet('339f6454f15bb8c6cbbf2a4203a37ee38422714aef21052b87b68593219fdc00', web3);
 
+		const contract = new ethers.Contract(TrustChainAddress, abi, wallet);
+		console.log('contract', contract);
+		contract.makeRequest(rHash, amount)
+		.then(function(transaction){
+			console.log(transaction);
+			},error => {
+				var errmess = new Error(error.message);
+				throw errmess;
+		})
+		.then(()=> dispatch(requestSuccess()))
+		.catch((error)=>{dispatch(requestFailed(error.message))});
 
-      dispatch(addMedicalDetails("hello"));
-  
-   
+	  
+	 
 };
 
-
-export const addMedicalDetails = (person) => ({
-    type: ActionTypes.SAVE_PERSONAL_DETAILS,
-    payload: person
+export const requestLoading = () =>({
+	type: ActionTypes.ADD_REQUEST_LOADING
 });
+export const requestFailed = (msg) =>({
+	type: ActionTypes.ADD_REQUEST_LOADING,
+	payload: msg
+});
+export const requestSuccess = () =>({
+	type: ActionTypes.ADD_REQUEST
+});
+
 
 export const loadTrustChainData = () => async(dispatch) => {
 	console.log("hello")
