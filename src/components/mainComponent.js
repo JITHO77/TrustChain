@@ -10,7 +10,7 @@ import Request from './donateMedical/viewRequest';
 import ViewNeedy from './donateMedical/viewNeedy';
 import { Switch, Route, Redirect, withRouter, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {incStatus, loadTrustChainData} from '../redux/ActionCreater';
+import {incStatus, loadTrustChainData, payForRequested} from '../redux/ActionCreater';
 
 
 
@@ -20,13 +20,16 @@ const mapStateToProps = (state) => {
         person: state.Person,
         request: state.TrustChainData.request,
         requestCount: state.TrustChainData.requestCount,
-        trustChainData: state.TrustChainData.trustChain
+        trustChainData: state.TrustChainData.trustChain,
+        payment: state.Payment
     }
 }
 
 const mapDispatchToProps = (dispatch) =>({
     incrementStatus: (status) =>{ dispatch(incStatus(status))},
-    loadTrustChainData: () => {dispatch(loadTrustChainData())}
+    loadTrustChainData: () => {dispatch(loadTrustChainData())},
+    payForRequested: (id, money) => {dispatch(payForRequested(id, money))}
+
     })
 
 
@@ -51,6 +54,8 @@ class Main extends Component{
                 <ViewNeedy data = {this.props.trustChainData.filter((arrData, index, arr)=> index === Number(requestId))[0]}
                        request  = {this.props.request.filter((request, index, arrr)=> index === requestId)[0]}
                        requestCount  = {this.props.requestCount.filter((requestCount, index, arr)=> index === requestId)[0]}
+                       paymentStatus = {this.props.payment}
+                       payForRequested = {this.props.payForRequested}
             />
             );
             
