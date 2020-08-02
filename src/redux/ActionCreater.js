@@ -1,6 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 const Web3 = require('web3');
-
+const ethers = require('ethers');
 
 //const Gsn = require("@opengsn/gsn/dist/src/relayclient/")
 //const RelayProvider = Gsn.RelayProvider;
@@ -308,4 +308,34 @@ export const addTrustChainRequestId = (requestCount) => ({
 export const addTrustChainData = (dataArray) => ({
 	type: ActionTypes.ADD_TRUSTCHAIN_DATA,
 	payload: dataArray
+});
+
+
+export const payForRequested =async(id, money) => (dispatch) => {
+	dispatch(payLoading());
+	let wallet = new ethers.wallet('339f6454f15bb8c6cbbf2a4203a37ee38422714aef21052b87b68593219fdc00', web3);
+
+	const contract = new ethers.Contract(TrustChainAddress, abi, wallet);
+	console.log('contract', contract);
+    contract.sendMoney(id, money)
+	.then(function(transaction){
+		console.log(transaction);
+		},error => {
+			var errmess = new Error(error.message);
+			throw errmess;
+	})
+	.then(()=> dispatch(paySuccess()))
+	.catch((error)=>{dispatch(payFailed(error.message))});
+
+};
+
+export const payLoading = () =>({
+	type: ActionTypes.PAY_LOADING
+});
+export const payFailed = (msg) => ({
+	type: ActionTypes.PAY_FAILED,
+	payload: msg
+});
+export const paySuccess = () =>({
+	type: ActionTypes.PAY_SUCCESS
 });
