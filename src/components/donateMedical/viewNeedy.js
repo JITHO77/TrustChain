@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-
+import { useDispatch } from "react-redux";
 import {Button } from 'reactstrap'
+export default function ViewNeedy({data, request, requestCount, payment, payForRequested}){
+    const dispatch = useDispatch();
 
-export default function ViewNeedy({data, request, requestCount}){
     console.log('data', data)
     const  _arrayBufferToBase64 = ( buffer ) => {
         var binary = '';
@@ -56,7 +57,7 @@ export default function ViewNeedy({data, request, requestCount}){
             <div className="row">
                 <div className="col-12 col-md-2 mt-1">
                 <h3>{`Pay For ${data.name}`}</h3>
-                <Button>PAY</Button>
+                <Button onClick={()=> dispatch(payForRequested(requestCount, 1000)) }>PAY</Button>
 
                 </div>
             </div>
