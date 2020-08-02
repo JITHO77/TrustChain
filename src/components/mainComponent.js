@@ -10,8 +10,7 @@ import Request from './donateMedical/viewRequest';
 import ViewNeedy from './donateMedical/viewNeedy';
 import { Switch, Route, Redirect, withRouter, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {incStatus, loadTrustChainData, payForRequested} from '../redux/ActionCreater';
-
+import {incStatus, loadTrustChainData, payForRequested, addRequest} from '../redux/ActionCreater';
 
 
 const mapStateToProps = (state) => {
@@ -21,17 +20,18 @@ const mapStateToProps = (state) => {
         request: state.TrustChainData.request,
         requestCount: state.TrustChainData.requestCount,
         trustChainData: state.TrustChainData.trustChain,
-        payment: state.Payment
+        payment: state.Payment,
+        request: state.Request
     }
 }
 
 const mapDispatchToProps = (dispatch) =>({
     incrementStatus: (status) =>{ dispatch(incStatus(status))},
     loadTrustChainData: () => {dispatch(loadTrustChainData())},
-    payForRequested: (id, money) => {dispatch(payForRequested(id, money))}
+    payForRequested: (id, money) => {dispatch(payForRequested(id, money))},
+    addRequest: (rHash, amount) => {dispatch(addRequest(rHash, amount))},
 
-    })
-
+    });
 
 
 class Main extends Component{
@@ -67,7 +67,7 @@ class Main extends Component{
                 <Route path="/home" component = {()=><Home images={this.props.images}/>}/>
                 <Route path="/request" component = {()=><RequestHome images={this.props.images}/>}/>
                 <Route path="/donate" component = {()=><DonateHome images={this.props.images}/>}/>
-                <Route path="/requestMedical" component = {() => <Medical />} />
+                <Route path="/requestMedical" component = {() => <Medical addRequest = {this.props.addRequest} requestStatus = {this.props.request}/>} />
                 <Route path="/requestHome" component = {() => <HomeRequest />} />
                 <Route path="/viewMedicalRequest" component = {() => <Request Data = {this.props.trustChainData}/>} />
                 <Route path="/viewMedicallRequest/:requestId" component = {({match}) => <ViewRequestId match={match} />} />
